@@ -1,0 +1,9 @@
+target
+.log
+.settings
+*.iml
+stanford-entity-extractor
+README.md
+.git
+data
+*.log
