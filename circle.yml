@@ -24,9 +24,35 @@ deployment:
   dev:
     branch: develop
     commands:
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORDA
       - docker build -t cliff .:
           timeout: 1200
       - docker tag -f cliff openwhere/cliff:dev
       - docker push openwhere/cliff:dev:
           timeout: 1200
+      - docker pull openwhere/ecs-deploy
+      - docker run --volume ~/.aws:/root/.aws --volume build/ecs:/usr/src/app/ecs openwhere/ecs-deploy ./ecsUpdate.py --cluster analytics-dev --env dev --region us-east-1
+  sit:
+    branch: master 
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - docker build -t cliff .:
+          timeout: 1200
+      - VERSION=`git rev-parse --short HEAD` && docker tag -f cliff openwhere/cliff:${VERSION}
+      - VERSION=`git rev-parse --short HEAD` && docker tag -f openwhere/cliff:${VERSION} openwhere/cliff:sit
+      - VERSION=`git rev-parse --short HEAD` && docker push openwhere/alertwhere-py:${VERSION}:
+          timeout: 1000
+      - docker push openwhere/alertwhere-py:sit:
+          timeout: 1000
+      - docker pull openwhere/ecs-deploy
+      - docker run --volume ~/.aws:/root/.aws --volume build/ecs:/usr/src/app/ecs openwhere/ecs-deploy ./ecsUpdate.py --cluster analytics-sit --env sit --region us-west-2
+  release:
+     tag: /release-.*/
+     owner: OpenWhere
+     commands:
+       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORD
+       - docker build -t cliff .:
+          timeout: 1200
+       - docker tag -f cliff openwhere/cliff:${CIRCLE_TAG} 
+       - docker tag -f openwhere/cliff:${CIRCLE_TAG} openwhere/cliff:expo
+       - docker run --volume ~/.aws:/root/.aws --volume build/ecs:/usr/src/app/ecs openwhere/ecs-deploy ./ecsUpdate.py --cluster analytics-expo --env expo --region us-east-1
