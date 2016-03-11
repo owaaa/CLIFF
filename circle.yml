@@ -40,9 +40,9 @@ deployment:
           timeout: 1200
       - VERSION=`git rev-parse --short HEAD` && docker tag -f cliff openwhere/cliff:${VERSION}
       - VERSION=`git rev-parse --short HEAD` && docker tag -f openwhere/cliff:${VERSION} openwhere/cliff:sit
-      - VERSION=`git rev-parse --short HEAD` && docker push openwhere/alertwhere-py:${VERSION}:
+      - VERSION=`git rev-parse --short HEAD` && docker push openwhere/cliff:${VERSION}:
           timeout: 1000
-      - docker push openwhere/alertwhere-py:sit:
+      - docker push openwhere/cliff:sit:
           timeout: 1000
       - docker pull openwhere/ecs-deploy
       - docker run --volume ~/.aws:/root/.aws --volume build/ecs:/usr/src/app/ecs openwhere/ecs-deploy ./ecsUpdate.py --cluster analytics-sit --env sit --region us-west-2
