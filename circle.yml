@@ -55,4 +55,8 @@ deployment:
           timeout: 1200
        - docker tag -f cliff openwhere/cliff:${CIRCLE_TAG} 
        - docker tag -f openwhere/cliff:${CIRCLE_TAG} openwhere/cliff:expo
+       - docker push openwhere/cliff:${CIRCLE_TAG}:
+          timeout: 1000
+       - docker push openwhere/cliff:expo:
+          timeout: 1000
        - docker run --volume ~/.aws:/root/.aws --volume ${PWD}/build/ecs:/usr/src/app/ecs openwhere/ecs-deploy ./ecsUpdate.py --cluster analytics-expo --env expo --region us-east-1
