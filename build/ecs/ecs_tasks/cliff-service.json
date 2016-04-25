@@ -7,7 +7,7 @@
           "sourceContainer": "clavin"
         }
       ],
-      "memory": 4000,
+      "memory": 6144,
       "extraHosts": null,
       "dnsServers": null,
       "disableNetworking": null,
@@ -34,7 +34,7 @@
       "command": null,
       "user": null,
       "dockerLabels": null,
-      "cpu": 700,
+      "cpu": 600,
       "privileged": null
     },
     {
