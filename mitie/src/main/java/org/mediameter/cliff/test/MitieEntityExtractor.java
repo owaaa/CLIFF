@@ -129,7 +129,7 @@ public class MitieEntityExtractor implements EntityExtractor {
                     entities.addOrganization( organization );
                     break;
                 default:
-                    logger.warn("Unknown NER type :"+ tag);
+                    logger.debug("Unknown NER type :"+ tag);
             }
         }
     }

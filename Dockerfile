@@ -66,4 +66,4 @@ RUN mvn -Dmaven.test.skip=true -P mitie,\!stanford-ner clean install && \
     rm -rf ~/.m2
 
 EXPOSE 8080
-CMD /usr/local/tomcat7/bin/catalina.sh run
+CMD /usr/local/tomcat7/bin/catalina.sh run 2>&1
