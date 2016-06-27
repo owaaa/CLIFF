@@ -210,6 +210,7 @@ public class ParseManager {
             HashMap sourceInfo = new HashMap();
             sourceInfo.put("name", person.getName());
             sourceInfo.put("count", person.getOccurenceCount());
+            sourceInfo.put("score", person.getScore());
             sourceInfo.put("occurences", person.getOccurrences().stream()
                     .map(o -> o.position).collect(Collectors.toList()));
             personResults.add(sourceInfo);
@@ -223,6 +224,7 @@ public class ParseManager {
         for (ResolvedOrganization organization: resolvedOrganizations){
             HashMap sourceInfo = new HashMap();
             sourceInfo.put("name", organization.getName());
+            sourceInfo.put("score", organization.getScore());
             sourceInfo.put("count", organization.getOccurenceCount());
             sourceInfo.put("occurences", organization.getOccurrences().stream()
                     .map( o -> o.position).collect(Collectors.toList()));

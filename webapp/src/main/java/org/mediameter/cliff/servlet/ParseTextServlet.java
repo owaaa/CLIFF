@@ -69,8 +69,8 @@ public class ParseTextServlet extends HttpServlet{
 
             StringBuilder jb = new StringBuilder();
             String line = null;
+            request.setCharacterEncoding(StandardCharsets.UTF_8.name());
             try(BufferedReader reader = request.getReader()) {
-                request.setCharacterEncoding(StandardCharsets.UTF_8.name());
                 while ((line = reader.readLine()) != null)
                     jb.append(line);
             } catch (Exception e) {

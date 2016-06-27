@@ -84,7 +84,7 @@ public class MitieEntityExtractor implements EntityExtractor {
         }
 
         global g = new global();
-        StringVector words = g.tokenize(text);
+        TokenIndexVector words = g.tokenizeWithOffsets(text);
 
         StringVector possibleTags = namedEntityRecognizer.getPossibleNerTags();
         EntityMentionVector extractedEntities = namedEntityRecognizer.extractEntities(words);
@@ -98,14 +98,15 @@ public class MitieEntityExtractor implements EntityExtractor {
 
     //Lot's of entities had this character some reason, remove so valid
     private String cleanName(String name){
-        return name.replace("\\n", "");
+        return name.replace("\\n", "").replace("“", "");
     }
 
-    private void assignExtractedEntities(ExtractedEntities entities, String text, StringVector words, StringVector possibleTags, EntityMentionVector extractedEntities) {
+    private void assignExtractedEntities(ExtractedEntities entities, String text, TokenIndexVector words, StringVector possibleTags, EntityMentionVector extractedEntities) {
         for (int i=0; i < extractedEntities.size(); i++){
             EntityMention extractedEntity = extractedEntities.get(i);
             String entityName = cleanName(getEntityString(words, extractedEntity));
             String tag = possibleTags.get(extractedEntity.getTag());
+            double score = extractedEntity.getScore();
             int position = extractedEntity.getStart();
             switch(tag){
                 case "PERSON":
@@ -113,7 +114,7 @@ public class MitieEntityExtractor implements EntityExtractor {
                         entities.addLocation( getLocationOccurrence(personToPlaceSubstitutions.getSubstitution(entityName), position) );
                         logger.debug("Changed person "+entityName+" to a place");
                     } else {
-                        PersonOccurrence person = new PersonOccurrence(entityName, position);
+                        PersonOccurrence person = new PersonOccurrence(entityName, position, score);
                         entities.addPerson( person );
                     }
                     break;
@@ -125,7 +126,7 @@ public class MitieEntityExtractor implements EntityExtractor {
                     }
                     break;
                 case "ORGANIZATION":
-                    OrganizationOccurrence organization = new OrganizationOccurrence(entityName, position);
+                    OrganizationOccurrence organization = new OrganizationOccurrence(entityName, position, score);
                     entities.addOrganization( organization );
                     break;
                 default:
@@ -166,7 +167,7 @@ public class MitieEntityExtractor implements EntityExtractor {
                 text = demonyms.replaceAll(text);
             }
 
-            StringVector words = global.tokenize(text);
+            TokenIndexVector words = global.tokenizeWithOffsets(text);
             EntityMentionVector extractedEntities = namedEntityRecognizer.extractEntities(words);
 
             if (extractedEntities != null) {
@@ -177,10 +178,10 @@ public class MitieEntityExtractor implements EntityExtractor {
         return entities;
     }
 
-    private String getEntityString(StringVector words, EntityMention ent){
+    private String getEntityString(TokenIndexVector words, EntityMention ent){
         StringBuilder builder = new StringBuilder();
         for(int i = ent.getStart(); i < ent.getEnd(); i++){
-            builder.append(words.get(i));
+            builder.append(words.get(i).getToken());
             if(i + 1 < ent.getEnd()){
                 builder.append(" ");
             }
