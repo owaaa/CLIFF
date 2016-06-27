@@ -106,6 +106,7 @@ public class MitieEntityExtractor implements EntityExtractor {
             EntityMention extractedEntity = extractedEntities.get(i);
             String entityName = cleanName(getEntityString(words, extractedEntity));
             String tag = possibleTags.get(extractedEntity.getTag());
+            double score = extractedEntity.getScore();
             int position = extractedEntity.getStart();
             switch(tag){
                 case "PERSON":
@@ -113,7 +114,7 @@ public class MitieEntityExtractor implements EntityExtractor {
                         entities.addLocation( getLocationOccurrence(personToPlaceSubstitutions.getSubstitution(entityName), position) );
                         logger.debug("Changed person "+entityName+" to a place");
                     } else {
-                        PersonOccurrence person = new PersonOccurrence(entityName, position);
+                        PersonOccurrence person = new PersonOccurrence(entityName, position, score);
                         entities.addPerson( person );
                     }
                     break;
@@ -125,7 +126,7 @@ public class MitieEntityExtractor implements EntityExtractor {
                     }
                     break;
                 case "ORGANIZATION":
-                    OrganizationOccurrence organization = new OrganizationOccurrence(entityName, position);
+                    OrganizationOccurrence organization = new OrganizationOccurrence(entityName, position, score);
                     entities.addOrganization( organization );
                     break;
                 default:

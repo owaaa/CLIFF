@@ -17,9 +17,9 @@
             <version>2.2.0</version>
         </dependency>
         <dependency>
-            <groupId>edu.mit.ll.mitie</groupId>
+            <groupId>edu.mit.ll</groupId>
             <artifactId>mitie</artifactId>
-            <version>0.4</version>
+            <version>0.7</version>
         </dependency>
         <dependency>
             <groupId>org.kohsuke.metainf-services</groupId>

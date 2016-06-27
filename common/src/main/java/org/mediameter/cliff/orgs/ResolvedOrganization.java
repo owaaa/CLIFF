@@ -34,6 +34,10 @@ public class ResolvedOrganization {
         return longestName;
     }
 
+    public double getScore(){
+        return occurrences.stream().mapToDouble(o -> o.score).average().getAsDouble();
+    }
+
     public List<OrganizationOccurrence> getOccurrences() {
         return occurrences;
     }
