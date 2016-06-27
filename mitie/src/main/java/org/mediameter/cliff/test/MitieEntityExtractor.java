@@ -84,7 +84,7 @@ public class MitieEntityExtractor implements EntityExtractor {
         }
 
         global g = new global();
-        StringVector words = g.tokenize(text);
+        TokenIndexVector words = g.tokenizeWithOffsets(text);
 
         StringVector possibleTags = namedEntityRecognizer.getPossibleNerTags();
         EntityMentionVector extractedEntities = namedEntityRecognizer.extractEntities(words);
@@ -98,10 +98,10 @@ public class MitieEntityExtractor implements EntityExtractor {
 
     //Lot's of entities had this character some reason, remove so valid
     private String cleanName(String name){
-        return name.replace("\\n", "");
+        return name.replace("\\n", "").replace("“", "");
     }
 
-    private void assignExtractedEntities(ExtractedEntities entities, String text, StringVector words, StringVector possibleTags, EntityMentionVector extractedEntities) {
+    private void assignExtractedEntities(ExtractedEntities entities, String text, TokenIndexVector words, StringVector possibleTags, EntityMentionVector extractedEntities) {
         for (int i=0; i < extractedEntities.size(); i++){
             EntityMention extractedEntity = extractedEntities.get(i);
             String entityName = cleanName(getEntityString(words, extractedEntity));
@@ -166,7 +166,7 @@ public class MitieEntityExtractor implements EntityExtractor {
                 text = demonyms.replaceAll(text);
             }
 
-            StringVector words = global.tokenize(text);
+            TokenIndexVector words = global.tokenizeWithOffsets(text);
             EntityMentionVector extractedEntities = namedEntityRecognizer.extractEntities(words);
 
             if (extractedEntities != null) {
@@ -177,10 +177,10 @@ public class MitieEntityExtractor implements EntityExtractor {
         return entities;
     }
 
-    private String getEntityString(StringVector words, EntityMention ent){
+    private String getEntityString(TokenIndexVector words, EntityMention ent){
         StringBuilder builder = new StringBuilder();
         for(int i = ent.getStart(); i < ent.getEnd(); i++){
-            builder.append(words.get(i));
+            builder.append(words.get(i).getToken());
             if(i + 1 < ent.getEnd()){
                 builder.append(" ");
             }
