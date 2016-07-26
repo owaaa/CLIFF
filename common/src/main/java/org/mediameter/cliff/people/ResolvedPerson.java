@@ -34,6 +34,10 @@ public class ResolvedPerson {
         return longestName;
     }
 
+    public double getScore(){
+        return occurrences.stream().mapToDouble(o -> o.score).average().getAsDouble();
+    }
+
     public List<PersonOccurrence> getOccurrences() {
         return occurrences;
     }
