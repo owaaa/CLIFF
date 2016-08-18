@@ -36,7 +36,7 @@ RUN mkdir -p /opt/java &&  mkdir -p /data/log
 VOLUME ["/data/log"]
 VOLUME /etc/cliff2/IndexDirectory
 
-ENV JAVA_OPTS "-Djava.libary.path=/usr/lib/jvm/java-8-oracle/jre/lib -Xmx4g"
+ENV CATALINA_OPTS "-Djava.libary.path=/usr/lib/jvm/java-8-oracle/jre/lib -Xms4g -Xmx4g"
 WORKDIR /opt/java
 #CLIFF Specific stuff
 RUN apt-get update; apt-get install -y cmake swig gcc g++ gfortran bzip2 make libopenblas-dev liblapack-dev && \
