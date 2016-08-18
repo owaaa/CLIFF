@@ -30,8 +30,8 @@ deployment:
       - docker tag -f cliff openwhere/cliff:dev
       - docker push openwhere/cliff:dev:
           timeout: 1200
-      - docker pull openwhere/ecs-deploy
-      - docker run --volume ~/.aws:/root/.aws --volume ${PWD}/build/ecs:/usr/src/app/ecs openwhere/ecs-deploy ./ecsUpdate.py --cluster analytics-dev --env dev --region us-east-1
+      - docker pull openwhere/ecs-deploy:v1.1
+      - docker run --volume ~/.aws:/root/.aws --volume ${PWD}/build/ecs:/usr/src/app/ecs openwhere/ecs-deploy:v1.1 ./ecsUpdate.py --cluster analytics-dev --env dev --region us-east-1
   sit:
     branch: master 
     commands:
@@ -44,8 +44,8 @@ deployment:
           timeout: 1000
       - docker push openwhere/cliff:sit:
           timeout: 1000
-      - docker pull openwhere/ecs-deploy
-      - docker run --volume ~/.aws:/root/.aws --volume ${PWD}/build/ecs:/usr/src/app/ecs openwhere/ecs-deploy ./ecsUpdate.py --cluster analytics-sit --env sit --region us-west-2
+      - docker pull openwhere/ecs-deploy:v1.1
+      - docker run --volume ~/.aws:/root/.aws --volume ${PWD}/build/ecs:/usr/src/app/ecs openwhere/ecs-deploy:v1.1 ./ecsUpdate.py --cluster analytics-sit --env sit --region us-west-2
   release:
      tag: /release-.*/
      owner: OpenWhere
@@ -59,7 +59,7 @@ deployment:
           timeout: 1000
        - docker push openwhere/cliff:expo:
           timeout: 1000
-       - docker run --volume ~/.aws:/root/.aws --volume ${PWD}/build/ecs:/usr/src/app/ecs openwhere/ecs-deploy ./ecsUpdate.py --cluster analytics-expo --env expo --region us-east-1
+       - docker run --volume ~/.aws:/root/.aws --volume ${PWD}/build/ecs:/usr/src/app/ecs openwhere/ecs-deploy:v1.1 ./ecsUpdate.py --cluster analytics-expo --env expo --region us-east-1
   pgp:
      tag: /pgp-.*/
      owner: OpenWhere
@@ -72,4 +72,17 @@ deployment:
        - docker push openwhere/cliff:${CIRCLE_TAG}:
           timeout: 1000
        - docker push openwhere/cliff:pgp:
+          timeout: 1000
+  expobsg:
+     tag: /expobsg-.*/
+     owner: OpenWhere
+     commands:
+       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORD
+       - docker build -t cliff .:
+          timeout: 1200
+       - docker tag -f cliff openwhere/cliff:${CIRCLE_TAG}
+       - docker tag -f openwhere/cliff:${CIRCLE_TAG} openwhere/cliff:expobsg
+       - docker push openwhere/cliff:${CIRCLE_TAG}:
+          timeout: 1000
+       - docker push openwhere/cliff:expobsg:
           timeout: 1000
