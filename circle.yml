@@ -39,13 +39,13 @@ deployment:
       - docker build -t cliff .:
           timeout: 1200
       - VERSION=`git rev-parse --short HEAD` && docker tag -f cliff openwhere/cliff:${VERSION}
-      - VERSION=`git rev-parse --short HEAD` && docker tag -f openwhere/cliff:${VERSION} openwhere/cliff:sit
+      - VERSION=`git rev-parse --short HEAD` && docker tag -f openwhere/cliff:${VERSION} openwhere/cliff:$SIT_ENV_NAME
       - VERSION=`git rev-parse --short HEAD` && docker push openwhere/cliff:${VERSION}:
           timeout: 1000
-      - docker push openwhere/cliff:sit:
+      - docker push openwhere/cliff:$SIT_ENV_NAME:
           timeout: 1000
       - docker pull openwhere/ecs-deploy:v1.1
-      - docker run --volume ~/.aws:/root/.aws --volume ${PWD}/build/ecs:/usr/src/app/ecs openwhere/ecs-deploy:v1.1 ./ecsUpdate.py --cluster analytics-sit --env sit --region us-west-2
+      - docker run --volume ${PWD}/build/ecs:/usr/src/app/ecs -e AWS_ACCESS_KEY_ID=$SIT_AWS_KEY -e AWS_SECRET_ACCESS_KEY=$SIT_AWS_SECRET openwhere/ecs-deploy:v1.1 ./ecsUpdate.py --cluster analytics-$SIT_ENV_NAME --env $SIT_ENV_NAME --region $SIT_REGION
   release:
      tag: /release-.*/
      owner: OpenWhere
