@@ -27,7 +27,7 @@ deployment:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORD
       - docker build -t cliff .:
           timeout: 1200
-      - docker tag -f cliff openwhere/cliff:dev
+      - DOCKER_VERSION=`docker --version | cut -f3 | cut -d '.' -f2` && [ ${DOCKER_VERSION} -lt 12 ] && TAG_FLAG='-f' || TAG_FLAG='' && docker tag ${TAG_FLAG} cliff openwhere/cliff:dev
       - docker push openwhere/cliff:dev:
           timeout: 1200
       - docker pull openwhere/ecs-deploy:v1.1
@@ -38,8 +38,8 @@ deployment:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORD
       - docker build -t cliff .:
           timeout: 1200
-      - VERSION=`git rev-parse --short HEAD` && docker tag -f cliff openwhere/cliff:${VERSION}
-      - VERSION=`git rev-parse --short HEAD` && docker tag -f openwhere/cliff:${VERSION} openwhere/cliff:$SIT_ENV_NAME
+      - VERSION=`git rev-parse --short HEAD` && DOCKER_VERSION=`docker --version | cut -f3 | cut -d '.' -f2` && [ ${DOCKER_VERSION} -lt 12 ] && TAG_FLAG='-f' || TAG_FLAG='' && docker tag ${TAG_FLAG} cliff openwhere/cliff:${VERSION}
+      - VERSION=`git rev-parse --short HEAD` && DOCKER_VERSION=`docker --version | cut -f3 | cut -d '.' -f2` && [ ${DOCKER_VERSION} -lt 12 ] && TAG_FLAG='-f' || TAG_FLAG='' && docker tag ${TAG_FLAG} openwhere/cliff:${VERSION} openwhere/cliff:$SIT_ENV_NAME
       - VERSION=`git rev-parse --short HEAD` && docker push openwhere/cliff:${VERSION}:
           timeout: 1000
       - docker push openwhere/cliff:$SIT_ENV_NAME:
@@ -53,8 +53,8 @@ deployment:
        - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORD
        - docker build -t cliff .:
           timeout: 1200
-       - docker tag -f cliff openwhere/cliff:${CIRCLE_TAG} 
-       - docker tag -f openwhere/cliff:${CIRCLE_TAG} openwhere/cliff:expo
+       - DOCKER_VERSION=`docker --version | cut -f3 | cut -d '.' -f2` && [ ${DOCKER_VERSION} -lt 12 ] && TAG_FLAG='-f' || TAG_FLAG='' && docker tag ${TAG_FLAG} cliff openwhere/cliff:${CIRCLE_TAG} 
+       - DOCKER_VERSION=`docker --version | cut -f3 | cut -d '.' -f2` && [ ${DOCKER_VERSION} -lt 12 ] && TAG_FLAG='-f' || TAG_FLAG='' && docker tag ${TAG_FLAG} openwhere/cliff:${CIRCLE_TAG} openwhere/cliff:expo
        - docker push openwhere/cliff:${CIRCLE_TAG}:
           timeout: 1000
        - docker push openwhere/cliff:expo:
@@ -67,8 +67,8 @@ deployment:
        - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORD
        - docker build -t cliff .:
           timeout: 1200
-       - docker tag -f cliff openwhere/cliff:${CIRCLE_TAG} 
-       - docker tag -f openwhere/cliff:${CIRCLE_TAG} openwhere/cliff:pgp
+       - DOCKER_VERSION=`docker --version | cut -f3 | cut -d '.' -f2` && [ ${DOCKER_VERSION} -lt 12 ] && TAG_FLAG='-f' || TAG_FLAG='' && docker tag ${TAG_FLAG} cliff openwhere/cliff:${CIRCLE_TAG} 
+       - DOCKER_VERSION=`docker --version | cut -f3 | cut -d '.' -f2` && [ ${DOCKER_VERSION} -lt 12 ] && TAG_FLAG='-f' || TAG_FLAG='' && docker tag ${TAG_FLAG} openwhere/cliff:${CIRCLE_TAG} openwhere/cliff:pgp
        - docker push openwhere/cliff:${CIRCLE_TAG}:
           timeout: 1000
        - docker push openwhere/cliff:pgp:
@@ -80,8 +80,8 @@ deployment:
        - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASSWORD
        - docker build -t cliff .:
           timeout: 1200
-       - docker tag -f cliff openwhere/cliff:${CIRCLE_TAG}
-       - docker tag -f openwhere/cliff:${CIRCLE_TAG} openwhere/cliff:expobsg
+       - DOCKER_VERSION=`docker --version | cut -f3 | cut -d '.' -f2` && [ ${DOCKER_VERSION} -lt 12 ] && TAG_FLAG='-f' || TAG_FLAG='' && docker tag ${TAG_FLAG} cliff openwhere/cliff:${CIRCLE_TAG}
+       - DOCKER_VERSION=`docker --version | cut -f3 | cut -d '.' -f2` && [ ${DOCKER_VERSION} -lt 12 ] && TAG_FLAG='-f' || TAG_FLAG='' && docker tag ${TAG_FLAG} openwhere/cliff:${CIRCLE_TAG} openwhere/cliff:expobsg
        - docker push openwhere/cliff:${CIRCLE_TAG}:
           timeout: 1000
        - docker push openwhere/cliff:expobsg:
