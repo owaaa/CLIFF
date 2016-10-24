@@ -73,7 +73,7 @@ public class ParseTextServlet extends HttpServlet{
             try(BufferedReader reader = request.getReader()) {
                 while ((line = reader.readLine()) != null) {
                     jb.append(line);
-                    jb.append('\n');
+                    jb.append(".\n");
                 }
             } catch (Exception e) {
                 logger.error(e.toString());
