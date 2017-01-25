@@ -77,7 +77,7 @@ Resources:
           Cpu: 64
           VolumesFrom:
           Essential: true
-          Image: !Sub 639193537090.dkr.ecr.us-east-1.amazonaws.com/release/clavin:new
+          Image: !Sub 639193537090.dkr.ecr.us-east-1.amazonaws.com/${namespace}/clavin:new
           Memory: 25
           Name: clavin
       Family: !Ref name
