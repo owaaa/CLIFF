@@ -3,6 +3,8 @@ machine:
     - docker
   java:
     version: oraclejdk8
+  post:
+    - aws configure set default.region us-east-1
 
 test:
     override:
