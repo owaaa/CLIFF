@@ -75,7 +75,6 @@ Resources:
           Name: !Ref name
         -
           Cpu: 64
-          VolumesFrom:
           Essential: true
           Image: !Sub 639193537090.dkr.ecr.us-east-1.amazonaws.com/${namespace}/clavin:new
           Memory: 25
