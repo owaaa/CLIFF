@@ -28,7 +28,7 @@ deployment:
     commands:
       - $(aws ecr get-login)
       - VERSION=`git rev-parse --short HEAD` && build/build-docker.sh ${VERSION} ${CIRCLE_BRANCH}
-      - VERSION=`git rev-parse --short HEAD` && docker run --volume ~/.aws:/root/.aws --volume ${PWD}/build/ecs/ecs_cf:/usr/src/app/ecs/ecs 639193537090.dkr.ecr.us-east-1.amazonaws.com/release/ecs-deploy ./ecsUpdate.py --cluster analytics-deva --env deva --region us-east-1 --version ${VERSION} --namespace ${CIRCLE_BRANCH}
+      - VERSION=`git rev-parse --short HEAD` && docker run --volume ~/.aws:/root/.aws --volume ${PWD}/build/ecs/ecs_cf:/usr/src/app/ecs/ecs 639193537090.dkr.ecr.us-east-1.amazonaws.com/release/ecs-deploy ./cfUpdate.py --cfparams --cluster analytics-deva --env deva --region us-east-1 --version ${VERSION} --namespace ${CIRCLE_BRANCH}
   sit:
     branch: master 
     commands:
