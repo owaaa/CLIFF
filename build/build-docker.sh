@@ -19,4 +19,5 @@ docker pull tomcat:7-jre8
 docker build -t ${IMAGE_NAME} .
 docker tag ${TAG_FLAG} ${IMAGE_NAME} 639193537090.dkr.ecr.us-east-1.amazonaws.com/${NAMESPACE}/${IMAGE_NAME}:${TAG}
 docker push 639193537090.dkr.ecr.us-east-1.amazonaws.com/${NAMESPACE}/${IMAGE_NAME}:${TAG}
-
+docker tag ${TAG_FLAG} ${IMAGE_NAME} 639193537090.dkr.ecr.us-east-1.amazonaws.com/${NAMESPACE}/${IMAGE_NAME}:latest
+docker push 639193537090.dkr.ecr.us-east-1.amazonaws.com/${NAMESPACE}/${IMAGE_NAME}:latest
