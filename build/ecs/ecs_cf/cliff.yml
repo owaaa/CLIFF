@@ -103,9 +103,11 @@ Resources:
       Namespace: AWS/ApplicationELB
       Statistic: Average
       Period: 60
-      EvaluationPeriods: 1
+      EvaluationPeriods: 2
       Threshold: 0.0
       AlarmActions:
+        - Fn::ImportValue: !Sub ${env}-ServiceHealthTopic
+      OKActions:
         - Fn::ImportValue: !Sub ${env}-ServiceHealthTopic
       ComparisonOperator: LessThanOrEqualToThreshold
       Dimensions:
