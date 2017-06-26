@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: ECS Service and Task definition
+Description: Deprecated ECS Task Definition for CLIFF
 Parameters:
   cluster:
     Description: ECS service resources.
